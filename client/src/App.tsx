@@ -1,22 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-
-const productsArray = [
-  {
-  name: 'Product1',
-  price: 100.00,},
-  {
-  name: 'Product2',
-  price: 120.00,},
-  {
-  name: 'Product3',
-  price: 300.00,},
-
-];
+import './product';
 
 
 function App() {
-  const [products, setProducts] = useState(productsArray);
+  const [products, setProducts] = useState([]);
 
   const addProduct = () => {
     //TODO: Lookie at prevState which takes in the Previous state of hook.
