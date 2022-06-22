@@ -1,23 +1,21 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { IProduct } from '../../models/product'
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/store/configureStore';
+import LoadingComponent from '../../layout/LoadingComponent';
+import { fetchProductsAsync, productSelectors } from './catalogSlice';
 import ProductList from './ProductList';
 
 
 
 const Catalog = () => {
-    const [products, setProducts] = useState<IProduct[]>([]);
+    const products = useAppSelector(productSelectors.selectAll);
+    const { productsLoaded, status } = useAppSelector(state => state.catalog);
+    const dispatch = useAppDispatch();
     
-        useEffect(() => {
-        axios.get('http://localhost:5000/api/products')
-            .then((res) => {
-            console.log("Products Get", res.data)
-            setProducts(res.data);
-            })
-            .catch((err) => {
-            console.log("Products Get Error")
-            })
-        }, [])
+    useEffect(() => {
+        if (!productsLoaded) dispatch(fetchProductsAsync());
+    }, [productsLoaded, dispatch])
+
+    if(status.includes('pending')) return <LoadingComponent message='Finding Products'/>
 
     return(
         <>

@@ -1,5 +1,9 @@
+import { LoadingButton } from "@mui/lab";
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Typography } from "@mui/material";
-import { IProduct } from "../../models/product";
+import { Link } from "react-router-dom";
+import { IProduct } from "../../app/models/product";
+import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
+import { addBasketItemAsync } from "../basket/basketSlice";
 
 interface IProps {
     product: IProduct;
@@ -7,6 +11,8 @@ interface IProps {
 
 const ProductCard = (props: IProps) => {
     const { product } = props;
+    const { status } = useAppSelector(state => state.basket);
+    const dispatch = useAppDispatch();
 
     return(
         <Card>
@@ -36,8 +42,12 @@ const ProductCard = (props: IProps) => {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small">Add to Cart</Button>
-                <Button size="small">View</Button>
+                <LoadingButton 
+                    loading={status.includes(`pendingAddItem${product.id}`)} 
+                    onClick={() => dispatch(addBasketItemAsync({productId: product.id}))} 
+                    size="small">Add to Cart
+                </LoadingButton>
+                <Button component={Link} to={`/catalog/${product.id}`} size="small">View</Button>
             </CardActions>
         </Card>
     )

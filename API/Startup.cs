@@ -1,4 +1,5 @@
 using API.Data;
+using API.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -32,18 +33,17 @@ namespace API
                 opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddCors();
-<<<<<<< HEAD
-            
-=======
->>>>>>> e9bfa71cf0cb5e6bc8f7d566581f3a174e23f5eb
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // this is our new ExceptionMiddleware that we created to serialize the exceptions in to json objects
+            app.UseMiddleware<ExceptionMiddleware>();
+
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                // app.UseDeveloperExceptionPage(); commenting out.  We made our own ExceptionMiddleware
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPIv5 v1"));
             }
@@ -51,13 +51,10 @@ namespace API
             // app.UseHttpsRedirection();
 
             app.UseRouting();
-<<<<<<< HEAD
-            app.UseCors(opt => 
-=======
             app.UseCors(opt =>
->>>>>>> e9bfa71cf0cb5e6bc8f7d566581f3a174e23f5eb
             {
-                opt.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+                // Added the AllowCredentials in order to allow us to pass cookies to and from the client on a different domain
+                opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
             });
 
             app.UseAuthorization();

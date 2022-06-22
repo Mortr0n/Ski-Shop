@@ -107,3 +107,4 @@ C:\Users\cmsl4\UdemyProjects\skiProj\Ski-Shop\API\obj\Debug\net6.0\refint\API.dl
 C:\Users\cmsl4\UdemyProjects\skiProj\Ski-Shop\API\obj\Debug\net6.0\API.pdb
 C:\Users\cmsl4\UdemyProjects\skiProj\Ski-Shop\API\obj\Debug\net6.0\API.genruntimeconfig.cache
 C:\Users\cmsl4\UdemyProjects\skiProj\Ski-Shop\API\obj\Debug\net6.0\ref\API.dll
+C:\Users\chris.g.morton\Udemy Courses\ReStore\API\bin\Debug\net6.0\package-lock.json
